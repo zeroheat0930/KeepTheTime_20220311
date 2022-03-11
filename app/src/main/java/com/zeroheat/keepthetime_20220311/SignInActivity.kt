@@ -1,5 +1,6 @@
 package com.zeroheat.keepthetime_20220311
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -22,6 +23,15 @@ class SignInActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnSignUp.setOnClickListener {
+
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
+            startActivity(myIntent)
+
+        }
+
+
 
         binding.btnLogin.setOnClickListener {
             val inputEmail = binding.edtEmail.text.toString()

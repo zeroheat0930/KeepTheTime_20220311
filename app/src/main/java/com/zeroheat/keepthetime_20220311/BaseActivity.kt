@@ -22,7 +22,10 @@ abstract class BaseActivity : AppCompatActivity() {
         apiList = retrofit.create( APIList::class.java )
     }
 
-    abstract fun setupEvents()
+    abstract fun setupEvents(
+
+    )
+
     abstract fun setValues()
 
 }
