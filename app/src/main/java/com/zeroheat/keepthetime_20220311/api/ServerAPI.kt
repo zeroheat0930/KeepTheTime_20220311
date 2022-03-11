@@ -14,10 +14,16 @@ class ServerAPI {
 
         private var retrofit : Retrofit? = null
 
+        private val BASE_URL = "https://keepthetime.xyz"
+
         fun getRetrofit() : Retrofit {
+
+//           Retrofit 라이브러리는, 클래스 차원에서 BASE_URL을 설정할 수 있게 도와줌.
+
 
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL) // 어느 서버를 기반으로 움직일건지.
                     .build()
             }
 
