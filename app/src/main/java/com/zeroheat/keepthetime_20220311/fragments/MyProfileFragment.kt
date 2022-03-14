@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.zeroheat.keepthetime_20220311.R
 import com.zeroheat.keepthetime_20220311.databinding.FragmentMyProfileBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
@@ -48,6 +49,10 @@ class MyProfileFragment : BaseFragment() {
 
 //                  ??   = br.data.user.nick_name   // 프래그먼트의 txtNickname은 어떻게 가져와야하는가?
                     binding.txtNickname.text = br.data.user.nick_name   // 프래그먼트의 txtNickname은 어떻게 가져와야하는가?
+
+                    Glide.with(mContext).load(br.data.user.profile_img).into( binding.imgProfile )
+
+
                 }
 
             }
