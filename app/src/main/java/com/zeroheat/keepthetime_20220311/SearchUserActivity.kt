@@ -1,6 +1,5 @@
 package com.zeroheat.keepthetime_20220311
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager

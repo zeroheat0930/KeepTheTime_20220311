@@ -70,10 +70,6 @@ class SignInActivity : BaseActivity() {
                         finish()
 
 
-
-
-
-
                     }
 //                    실패일때는?
                     else{

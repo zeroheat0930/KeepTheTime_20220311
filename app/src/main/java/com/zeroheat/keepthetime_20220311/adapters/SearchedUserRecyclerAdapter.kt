@@ -28,31 +28,31 @@ class SearchedUserRecyclerAdapter(
 //        실 데이터 반영 기능이 있는 함수
         fun bind( data: UserData ) {
             txtNickname.text = data.nick_name
-    Glide.with(mContext).load( data.profile_img ).into(imgProfile)
+            Glide.with(mContext).load( data.profile_img ).into(imgProfile)
 
-    when (data.provider) {
-        "default" -> {
-            imgSocialLoginLogo.visibility = View.GONE
+            when (data.provider) {
+                "default" -> {
+                    imgSocialLoginLogo.visibility = View.GONE
 
-            txtEmail.text = data.email
-        }
-        "kakao" -> {
-            imgSocialLoginLogo.visibility = View.VISIBLE
-            imgSocialLoginLogo.setImageResource(R.drawable.kakao_logo)
-            txtEmail.text = "카카오 로그인"
-        }
-        "facebook" -> {
+                    txtEmail.text = data.email
+                }
+                "kakao" -> {
+                    imgSocialLoginLogo.visibility = View.VISIBLE
+                    imgSocialLoginLogo.setImageResource(R.drawable.kakao_logo)
+                    txtEmail.text = "카카오 로그인"
+                }
+                "facebook" -> {
 
-            imgSocialLoginLogo.visibility = View.VISIBLE
-            imgSocialLoginLogo.setImageResource(R.drawable.facebook_logo)
-            txtEmail.text = "페이스북 로그인"
-        }
-        "naver" -> {
+                    imgSocialLoginLogo.visibility = View.VISIBLE
+                    imgSocialLoginLogo.setImageResource(R.drawable.facebook_logo)
+                    txtEmail.text = "페이스북 로그인"
+                }
+                "naver" -> {
 
-            imgSocialLoginLogo.visibility = View.VISIBLE
-            imgSocialLoginLogo.setImageResource(R.drawable.naver_logo)
-            txtEmail.text = "네이버 로그인"
-        }
+                    imgSocialLoginLogo.visibility = View.VISIBLE
+                    imgSocialLoginLogo.setImageResource(R.drawable.naver_logo)
+                    txtEmail.text = "네이버 로그인"
+                }
     }
 
 }
@@ -73,6 +73,7 @@ class SearchedUserRecyclerAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
 //        실제 데이터 반영 함수
+
         val data = mList[position]
 
 //        이 함수에서 직접 코딩하면 => holder.UI변수 로 매번 holder 단어를 써야함.

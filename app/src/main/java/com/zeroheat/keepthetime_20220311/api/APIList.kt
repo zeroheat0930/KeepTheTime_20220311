@@ -14,8 +14,6 @@ interface APIList {
         @Field("password") pw: String
     ) : Call<BasicResponse>  // 서버가 주는 응답을 (성공시에) BasicResponse 형태로 자동 파싱
 
-
-
     @FormUrlEncoded
     @PUT("/user")
     fun putRequestSignUp(
@@ -48,9 +46,5 @@ interface APIList {
         @Query("nickname") nickname: String,
 
         ) : Call<BasicResponse>
-
-
-
-
 
 }
