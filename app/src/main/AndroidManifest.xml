@@ -13,6 +13,9 @@
         android:theme="@style/Theme.KeepTheTime_20220311"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ManageMyFriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
