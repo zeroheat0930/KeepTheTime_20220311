@@ -40,6 +40,21 @@ class ManageMyFriendActivity : BaseActivity() {
         ).enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
+                if (response.isSuccessful) {
+
+                    val br = response.body()!!
+
+//                    br.data.friends는 UserData 목록으로 이미 내려옴.
+//                    목록의 내용물을 통째로 => mFriendList 변수의 내용물로 담자.
+
+                    mFriendList.addAll( br.data.friends )
+
+//                    어댑터 새로 고침
+
+
+                }
+
+
             }
 
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
