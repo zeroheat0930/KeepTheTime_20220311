@@ -25,6 +25,7 @@ class SignInActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+
         binding.btnSignUp.setOnClickListener {
 
             val myIntent = Intent(mContext, SignUpActivity::class.java)
