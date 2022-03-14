@@ -24,9 +24,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun setupEvents(
 
- //        GET - /user 접근해서, 내 정보 조회.
-//        토큰값이 필요함. => 로그인 성공시 토큰 저장, ContextUtil에서 추출해서 사용.
-
 
     )
 

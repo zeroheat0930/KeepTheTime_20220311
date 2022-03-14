@@ -2,10 +2,7 @@ package com.zeroheat.keepthetime_20220311.api
 
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface APIList {
 //    BASE_URL에 해당하는 서버에서, 어떤 기능들을 사용할건지 명시.
@@ -26,5 +23,11 @@ interface APIList {
         @Field("password")  pw: String,
         @Field("nick_name")  nick: String,
     ) : Call<BasicResponse>
+
+    @GET("/user")
+    fun getRequestMyInfo(
+        @Header("X-Http-Token") token: String,
+    ) : Call<BasicResponse>
+
 
 }
