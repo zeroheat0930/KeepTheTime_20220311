@@ -33,9 +33,7 @@ class SearchedUserRecyclerAdapter(
     }
 
     //    몇개의 아이템을 보여줄 예정인지? => 데이터목록의 갯수만큼.
-    override fun getItemCount(): Int {
-
-    }
+    override fun getItemCount() = mList.size
 
 
 }
