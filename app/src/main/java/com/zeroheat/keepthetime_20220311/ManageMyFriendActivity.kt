@@ -2,6 +2,7 @@ package com.zeroheat.keepthetime_20220311
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.zeroheat.keepthetime_20220311.adapters.MyFriendAdapter
 import com.zeroheat.keepthetime_20220311.databinding.ActivityManageMyFriendBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.datas.UserData
@@ -15,6 +16,8 @@ class ManageMyFriendActivity : BaseActivity() {
     lateinit var binding : ActivityManageMyFriendBinding
 
     val mFriendList = ArrayList<UserData>()
+
+    lateinit var mAdapter: MyFriendAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,11 @@ class ManageMyFriendActivity : BaseActivity() {
 
     override fun setValues() {
         getMyFriendListFromServer()
+
+
+        mAdapter = MyFriendAdapter( mContext, R.layout.my_friend_list_item, mFriendList )
+        binding.myFriendsListView.adapter = mAdapter
+
     }
 
     fun getMyFriendListFromServer() {
@@ -50,7 +58,7 @@ class ManageMyFriendActivity : BaseActivity() {
                     mFriendList.addAll( br.data.friends )
 
 //                    어댑터 새로 고침
-
+                    mAdapter.notifyDataSetChanged()
 
                 }
 
