@@ -1,5 +1,6 @@
 package com.zeroheat.keepthetime_20220311
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.zeroheat.keepthetime_20220311.adapters.MyFriendAdapter
@@ -28,6 +29,14 @@ class ManageMyFriendActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnAddFriend.setOnClickListener {
+
+            val myIntent = Intent(mContext, SearchUserActivity::class.java)
+            startActivity(myIntent)
+
+        }
+
 
     }
 
