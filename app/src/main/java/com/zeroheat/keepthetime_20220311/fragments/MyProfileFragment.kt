@@ -75,23 +75,19 @@ class MyProfileFragment : BaseFragment() {
 
     }
 
-
     override fun setValues() {
 
 //        내 정보 조회 > UI 반영
-        apiList.getRequestMyInfo().enqueue(object :
-            Callback<BasicResponse> {
+        apiList.getRequestMyInfo(  ).enqueue( object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful) {
 
                     val br = response.body()!!
 
-//                  ??   = br.data.user.nick_name   // 프래그먼트의 txtNickname은 어떻게 가져와야하는가?
                     binding.txtNickname.text = br.data.user.nick_name   // 프래그먼트의 txtNickname은 어떻게 가져와야하는가?
 
                     Glide.with(mContext).load(br.data.user.profile_img).into( binding.imgProfile )
-
 
                 }
 
@@ -102,5 +98,7 @@ class MyProfileFragment : BaseFragment() {
             }
 
         })
+
     }
+
 }

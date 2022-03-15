@@ -33,9 +33,9 @@ class ManageMyFriendsActivity : BaseActivity() {
     override fun setValues() {
 
         mAdapter = FriendViewPagerAdapter(supportFragmentManager)
-        binding.friendsViewPager.adapter = mAdapter
+        binding.friendViewPager.adapter = mAdapter
 
-        binding.friendsTabLayout.setupWithViewPager( binding.friendsViewPager )
+        binding.friendsTabLayout.setupWithViewPager( binding.friendViewPager )
 
     }
 

@@ -19,7 +19,7 @@
             android:name=".SearchUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ManageMyFriendActivity"
+            android:name=".ManageMyFriendsActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
