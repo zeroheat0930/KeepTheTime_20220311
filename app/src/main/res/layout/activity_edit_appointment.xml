@@ -58,13 +58,26 @@
                 android:text="약속 시간"/>
 
         </LinearLayout>
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_marginTop="5dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="약속 장소"
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:id="@+id/edtPlaceName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="약속 등록하기" />
-
-
+            android:hint="장소 입력" />
+        <com.naver.maps.map.MapView
+            android:id="@+id/naverMapView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="5dp" />
+        <Button
+                android:id="@+id/btnSave"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="약속 등록하기" />
     </LinearLayout>
 </layout>
