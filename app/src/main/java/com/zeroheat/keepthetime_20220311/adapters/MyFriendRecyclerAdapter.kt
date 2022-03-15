@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zeroheat.keepthetime_20220311.R
 import com.zeroheat.keepthetime_20220311.datas.UserData
-import org.w3c.dom.Text
 
 class MyFriendRecyclerAdapter(
     val mContext : Context,

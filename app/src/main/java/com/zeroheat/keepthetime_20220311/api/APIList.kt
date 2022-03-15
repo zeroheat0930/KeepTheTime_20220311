@@ -14,12 +14,13 @@ interface APIList {
         @Field("password") pw: String
     ) : Call<BasicResponse>  // 서버가 주는 응답을 (성공시에) BasicResponse 형태로 자동 파싱
 
+
     @FormUrlEncoded
     @PUT("/user")
     fun putRequestSignUp(
         @Field("email") email: String,
-        @Field("password")  pw: String,
-        @Field("nick_name")  nick: String,
+        @Field("password") pw: String,
+        @Field("nick_name") nick: String,
     ) : Call<BasicResponse>
 
     @GET("/user")
@@ -39,6 +40,7 @@ interface APIList {
     @GET("/search/user")
     fun getRequestSearchUser(
         @Query("nickname") nickname: String,
+
         ) : Call<BasicResponse>
 
     @FormUrlEncoded
@@ -63,6 +65,7 @@ interface APIList {
         @Field("latitude") lat: Double,
         @Field("longitude") lng: Double,
     ) : Call<BasicResponse>
+
 
 
 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zeroheat.keepthetime_20220311.R
-import com.zeroheat.keepthetime_20220311.adapters.MyFriendRecyclerAdapter
 import com.zeroheat.keepthetime_20220311.adapters.RequestedUsersRecyclerAdapter
 import com.zeroheat.keepthetime_20220311.databinding.FragmentRequestedUsersBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
@@ -44,14 +43,19 @@ class RequestedUsersFragment : BaseFragment() {
     }
 
     override fun setValues() {
+//        나에게 친구 요청한 사람 목록을 > 리싸이클러뷰로 보여주기.
+//        API : getRequestFriendList 함수 -> "requested" 로 대입.
 
-        mRequestAdapter = RequestedUsersRecyclerAdapter(mContext,mRquestedList)
+        getRequestedUsersFromServer()
+
+
+        mRequestAdapter = RequestedUsersRecyclerAdapter(mContext, mRquestedList)
         binding.requestUsersRecyclerView.adapter = mRequestAdapter
+
         binding.requestUsersRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
-        getRequestFromServer()
     }
-    fun getRequestFromServer(){
+    fun getRequestedUsersFromServer(){
 
         apiList.getRequestFriendList("requested").enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {

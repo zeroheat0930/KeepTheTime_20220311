@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.zeroheat.keepthetime_20220311.ManageMyFriendActivity
+import com.zeroheat.keepthetime_20220311.ManageMyFriendsActivity
 import com.zeroheat.keepthetime_20220311.R
 import com.zeroheat.keepthetime_20220311.SplashActivity
 import com.zeroheat.keepthetime_20220311.databinding.FragmentMyProfileBinding
@@ -42,7 +42,7 @@ class MyProfileFragment : BaseFragment() {
 
         binding.btnManageMyFriends.setOnClickListener {
 
-            val myIntent = Intent(mContext, ManageMyFriendActivity::class.java)
+            val myIntent = Intent(mContext, ManageMyFriendsActivity::class.java)
             startActivity(myIntent)
 
         }

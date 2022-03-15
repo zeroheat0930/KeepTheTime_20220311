@@ -6,9 +6,9 @@ import androidx.databinding.DataBindingUtil
 import com.zeroheat.keepthetime_20220311.adapters.FriendViewPagerAdapter
 import com.zeroheat.keepthetime_20220311.databinding.ActivityManageMyFriendBinding
 
-class ManageMyFriendActivity : BaseActivity() {
+class ManageMyFriendsActivity : BaseActivity() {
 
-    lateinit var binding : ActivityManageMyFriendBinding
+    lateinit var binding: ActivityManageMyFriendBinding
 
     lateinit var mAdapter: FriendViewPagerAdapter
 
@@ -28,7 +28,6 @@ class ManageMyFriendActivity : BaseActivity() {
 
         }
 
-
     }
 
     override fun setValues() {
@@ -36,8 +35,7 @@ class ManageMyFriendActivity : BaseActivity() {
         mAdapter = FriendViewPagerAdapter(supportFragmentManager)
         binding.friendsViewPager.adapter = mAdapter
 
-        binding.friendsTabLayout.setupWithViewPager(binding.friendsViewPager)
-
+        binding.friendsTabLayout.setupWithViewPager( binding.friendsViewPager )
 
     }
 
