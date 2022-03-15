@@ -3,18 +3,14 @@ package com.zeroheat.keepthetime_20220311
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.zeroheat.keepthetime_20220311.adapters.MyFriendAdapter
+import com.zeroheat.keepthetime_20220311.adapters.FriendViewPagerAdapter
 import com.zeroheat.keepthetime_20220311.databinding.ActivityManageMyFriendBinding
-import com.zeroheat.keepthetime_20220311.datas.BasicResponse
-import com.zeroheat.keepthetime_20220311.datas.UserData
-import com.zeroheat.keepthetime_20220311.utils.ContextUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ManageMyFriendActivity : BaseActivity() {
 
     lateinit var binding : ActivityManageMyFriendBinding
+
+    lateinit var mAdapter: FriendViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +32,11 @@ class ManageMyFriendActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mAdapter = FriendViewPagerAdapter(supportFragmentManager)
+        binding.friendsViewPager.adapter = mAdapter
+
+        binding.friendsTabLayout.setupWithViewPager(binding.friendsViewPager)
 
 
     }
