@@ -79,7 +79,7 @@ class MyProfileFragment : BaseFragment() {
     override fun setValues() {
 
 //        내 정보 조회 > UI 반영
-        apiList.getRequestMyInfo(ContextUtil.getLoginUserToken(mContext)).enqueue(object :
+        apiList.getRequestMyInfo().enqueue(object :
             Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
