@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zeroheat.keepthetime_20220311.R
+import com.zeroheat.keepthetime_20220311.api.APIList
+import com.zeroheat.keepthetime_20220311.api.ServerAPI
 import com.zeroheat.keepthetime_20220311.datas.UserData
 
 class SearchedUserRecyclerAdapter(
@@ -55,6 +57,13 @@ class SearchedUserRecyclerAdapter(
                 }
     }
 
+//         친구 추가 버튼이 눌리면 할 일 => 친구 추가 요청 API 호출.
+//         어댑터에서 => API를 호출?  => 레트로핏 객체 직접 생성해서 호출.
+
+            val retrofit = ServerAPI.getRetrofit()
+            val apiList = retrofit.create( APIList::class.java)
+
+//            apiList.
 }
 
     }
