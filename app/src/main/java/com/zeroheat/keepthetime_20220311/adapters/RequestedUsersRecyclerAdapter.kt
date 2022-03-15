@@ -11,7 +11,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zeroheat.keepthetime_20220311.R
+import com.zeroheat.keepthetime_20220311.api.APIList
+import com.zeroheat.keepthetime_20220311.api.ServerAPI
+import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.datas.UserData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.math.log
 
 class RequestedUsersRecyclerAdapter(
@@ -80,6 +86,25 @@ class RequestedUsersRecyclerAdapter(
 
                 val tagStr = it.tag.toString()
                 Log.d("보낼파라미터값",tagStr)
+
+                val retrofit = ServerAPI.getRetrofit(mContext)
+                val apiList = retrofit.create(APIList::class.java)
+
+                apiList.putRequestAcceptOrDenyFriendRequest(
+                    data.id,
+                    tagStr
+                ).enqueue(object : Callback<BasicResponse>{
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+                })
             }
 
             btnAccpet.setOnClickListener(ocl)
