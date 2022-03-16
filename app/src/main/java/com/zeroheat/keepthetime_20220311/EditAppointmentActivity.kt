@@ -23,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditAppointmentActivity : BaseActivity() {
 
@@ -256,7 +257,7 @@ class EditAppointmentActivity : BaseActivity() {
                     null,
                     null,
                     null,
-                    object : OnResultCallbackListener{
+                    object : OnResultCallbackListener {
                         override fun onSuccess(p0: ODsayData?, p1: API?) {
 
                             val jsonObj = p0!!.json!!
@@ -265,10 +266,56 @@ class EditAppointmentActivity : BaseActivity() {
                             val resultObj = jsonObj.getJSONObject("result")
                             Log.d("result", resultObj.toString())
 
-                            val pathArr = resultObj.getJSONArray("path") //여러 추천 경로 중 첫번째 것만 사용해보자.
+                            val pathArr = resultObj.getJSONArray("path") // 여러 추천 경로 중 첫번째 만 사용해보자.
 
-                            val firstPathObj = pathArr.getJSONObject(0) // 무조껀 0번째경로로 추출
+                            val firstPathObj = pathArr.getJSONObject(0) // 무조건 0 번째 경로 추출.
                             Log.d("첫번째경로", firstPathObj.toString())
+
+
+//                            첫번째 경로를 지나는 모든 정거장들의 위경도값을 담을 목록
+                            val stationLatLngList = ArrayList<LatLng>()
+
+//                            출발지 좌표를 정거장 목록에 먼저 추가
+                            stationLatLngList.add(coord)
+
+//                            불광~강남 : 도보 5분/ 지하철 30분/ 버스 30분/ 도보 5분
+                            val subPathArr = firstPathObj.getJSONArray("subPath")
+
+                            for(i in 0 until subPathArr.length()){
+                                val subPathObj = subPathArr.getJSONObject(i)
+
+//                                둘러보려는 경로가, 정거장 목록을 내려준다면(지하철 or 버스스) => 내부 파싱
+                               if( !subPathObj.isNull("passStopList")){
+
+                                    val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                    val stationsArr = passStopListObj.getJSONArray("stations")
+
+
+//                                    실제 정거장 목록 파싱 => 각 정거장의 위도/경도 추출 가능. => ArrayList에 담아서, 경로선의 좌표로 활용
+                                    for(j in 0 until stationsArr.length()){
+                                        val stationObj = stationsArr.getJSONObject(j)
+
+//                                        위도(y좌표), 경도(x좌표) 추출
+                                        val lat = stationObj.getString("y").toDouble()
+                                        val lng = stationObj.getString("x").toDouble()
+
+//                                        네이버 지도의 좌표로 만들어서 > ArrayList에 담자
+                                        stationLatLngList.add(LatLng(lat,lng))
+                                    }
+
+
+                                }
+
+                            }
+
+//                            최종 정거장 ~ 도착지 까지 직선
+                            stationLatLngList.add(latLng)
+
+//                                   완성된 정거장 경로들을 => path 의 경로로 재설정. 지도에 새로 반영.
+
+                            path!!.coords = stationLatLngList
+                            path!!.map = naverMap
+
                         }
 
                         override fun onError(p0: Int, p1: String?, p2: API?) {
@@ -276,6 +323,7 @@ class EditAppointmentActivity : BaseActivity() {
                         }
 
                     }
+
                 )
 
                 if (path == null) {
