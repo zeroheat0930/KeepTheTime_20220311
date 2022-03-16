@@ -351,6 +351,10 @@ class EditAppointmentActivity : BaseActivity() {
                                 return@setOnClickListener true
                             }
 
+//                              카메라를 latLng (클릭한 위치)가 가운데로 오도록 세팅.
+
+                            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                            naverMap.moveCamera(cameraUpdate)
 
 
                         }
