@@ -139,6 +139,17 @@ class ViewMapActivity : BaseActivity() {
 
                         val infoStr = "이동 시간 : ${minutes}분, 비용 : ${payment}원"
 
+//                        정보창 띄우기
+                        val infoWindow = InfoWindow()
+
+                        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                            override fun getText(p0: InfoWindow): CharSequence {
+                                return infoStr
+                            }
+
+                        }
+
+                        infoWindow.open(marker)
                     }
 
                     override fun onError(p0: Int, p1: String?, p2: API?) {
