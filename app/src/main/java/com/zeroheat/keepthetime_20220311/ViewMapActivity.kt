@@ -53,7 +53,45 @@ class ViewMapActivity : BaseActivity() {
             val marker = Marker()
             marker.position = destLatLng
             marker.map = naverMap
+
+//            Path 객체의 좌표들 설정 => naverMap에 추가.
+
+            val path = PathOverlay()
+
+//            path.coords => 출발지 / 도착지만 넣어서 대입하면? 일직선 연결
+
+//            출발지~ 도착지 사이의 정거장이 있다면 정거장들을 좌표로 추가
+
+            val myODsayService = ODsayService.init(mContext, "jI4STxcHo/C9hrHGxIjPqk9a3v6BZe2OSeT8r5LSzTI")
+
+            myODsayService.requestSearchPubTransPath(
+                mAppointment.start_longitude.toString(),
+                mAppointment.start_latitude.toString(),
+                mAppointment.longitude.toString(),
+                mAppointment.latitude.toString(),
+                null,
+                null,
+                null,
+                object : OnResultCallbackListener{
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
+//                        JSONObject를 주는것을 > jsonObj에 받아서 > 내부 하나씩 파싱.
+
+                        val jsonObj = p0!!.json
+
+                        Log.d("대중교통길찾기", jsonObj.toString())
+
+                        val resultObj = jsonObj.getJSONObject("result")
+                        Log.d("result확인", resultObj.toString())
+                    }
+
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                    }
+
+                }
+            )
+
         }
 
-    }
+   }
 }
