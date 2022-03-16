@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import com.zeroheat.keepthetime_20220311.databinding.ActivityEditAppointmentBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import retrofit2.Call
@@ -30,6 +31,8 @@ class EditAppointmentActivity : BaseActivity() {
     var marker : Marker? = null // 지도에 표시될 하나의 마커. 처음에는 찍지않은 상태.
 
     var mSelectedLatLng : LatLng? = null // 약속 장소 위/경도도 처음에는 설정하지 않은 상태.
+
+    var path: PathOverlay? = null // 출발지 ~ 도착지까지 보여줄 경로 선. 처음에는 보이지 않는 상태.
 
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -236,6 +239,23 @@ class EditAppointmentActivity : BaseActivity() {
 
 //                약속 장소도 새 좌표로 설정.
                 mSelectedLatLng = latLng
+
+//                coord ~ 선택한 latLng 까지 직선을 그려보자. (PathOverlay 기능 활용)
+
+                if (path == null) {
+                    path = PathOverlay()
+                }
+
+//                ArrayList를 만들어서, 출발지와 도착지를 추가.
+                val coordList = ArrayList<LatLng>()
+
+                coordList.add( coord ) // 출발지를 임시로 학원으로.
+                coordList.add( latLng ) // 클릭 된 좌표 추가
+
+                path!!.coords = coordList
+
+                path!!.map = naverMap
+
 
             }
 
