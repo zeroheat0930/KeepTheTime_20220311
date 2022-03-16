@@ -1,8 +1,10 @@
 package com.zeroheat.keepthetime_20220311
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -13,7 +15,6 @@ import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
-import com.zeroheat.keepthetime_20220311.adapters.AppointmentRecyclerAdapter
 import com.zeroheat.keepthetime_20220311.databinding.ActivityViewMapBinding
 import com.zeroheat.keepthetime_20220311.datas.AppointmentData
 
@@ -87,14 +88,15 @@ class ViewMapActivity : BaseActivity() {
                         val resultObj = jsonObj.getJSONObject("result")
                         Log.d("result확인", resultObj.toString())
 
-                        val pathArr = resultObj.getJSONArray("path") // 여러개의 추천 경로 => 0번째 경로로 사용. (코딩 편의)
+                        val pathArr =
+                            resultObj.getJSONArray("path") // 여러개의 추천 경로 => 0번째 경로로 사용. (코딩 편의)
 
                         val firstPathObj = pathArr.getJSONObject(0)
 
 //                        첫 경로의 subPath 목록 파싱 (도보 - 버스 - 지하철 - 도보 ...)
                         val subPathArr = firstPathObj.getJSONArray("subPath")
 
-                        for (i  in  0 until  subPathArr.length()) {
+                        for (i in 0 until subPathArr.length()) {
 
                             val subPathObj = subPathArr.getJSONObject(i)
 
@@ -104,7 +106,7 @@ class ViewMapActivity : BaseActivity() {
                                 val passStopListObj = subPathObj.getJSONObject("passStopList")
                                 val stationsArr = passStopListObj.getJSONArray("stations")
 
-                                for (j in  0 until  stationsArr.length() ) {
+                                for (j in 0 until stationsArr.length()) {
 
                                     val stationObj = stationsArr.getJSONObject(j)
 
@@ -112,7 +114,7 @@ class ViewMapActivity : BaseActivity() {
                                     val stationLng = stationObj.getString("x").toDouble()
 
 //                                    네이버 지도의 경로선에 그려줄 좌표 목록에 추가.
-                                    stationList.add( LatLng( stationLat, stationLng ) )
+                                    stationList.add(LatLng(stationLat, stationLng))
 
                                 }
 
@@ -123,7 +125,7 @@ class ViewMapActivity : BaseActivity() {
 //                        모든 정거장 목록이 추가되어있다.
 //                        마지막 경로선으로, 도착지를 추가.
 
-                        stationList.add( destLatLng )
+                        stationList.add(destLatLng)
 
 
 //                        경로선을 지도에 그려주자.
@@ -139,19 +141,33 @@ class ViewMapActivity : BaseActivity() {
 
                         val infoStr = "이동 시간 : ${minutes}분, 비용 : ${payment}원"
 
-//                        정보창 띄우기
+//                        정보창 띄우기 => 원하는 모양으로 customView
                         val infoWindow = InfoWindow()
 
-                        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
-                            override fun getText(p0: InfoWindow): CharSequence {
-                                return infoStr
+                        infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+
+                            override fun getContentView(p0: InfoWindow): View {
+
+//                                리턴 자료형 : View를 리턴.
+//                                View 객체를 만드는 방법? => LayoutInflater에게 inflate 시키면 > 그 결과물이 View.
+                                val view = LayoutInflater.from(mContext)
+                                    .inflate(R.layout.destination_info_window, null)
+
+                                val txtPlaceName = view.findViewById<TextView>(R.id.txtPlaceName)
+                                val txtMoveTime = view.findViewById<TextView>(R.id.txtMoveTime)
+                                val txtPayment = view.findViewById<TextView>(R.id.txtPayment)
+
+                                txtPlaceName.text = mAppointment.place
+
+                                txtMoveTime.text = "${minutes}분 소요"
+                                txtPayment.text = "${payment}원 필요"
+
+                                return view
                             }
 
                         }
-
                         infoWindow.open(marker)
                     }
-
                     override fun onError(p0: Int, p1: String?, p2: API?) {
 
                     }
