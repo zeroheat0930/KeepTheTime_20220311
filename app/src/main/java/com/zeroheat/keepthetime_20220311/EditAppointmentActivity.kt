@@ -44,6 +44,45 @@ class EditAppointmentActivity : BaseActivity() {
     override fun setupEvents() {
 //        저장 버튼이 눌리면
         binding.btnSave.setOnClickListener {
+
+//            입력값들이 제대로 되어있는지? 확인 => 잘못되었따면 막아주자. (input validation)
+
+            val inputTitle = binding.edtTitle.text.toString()
+
+//           제목을 입력하지 않았다면 거부.(예시)
+            if(inputTitle.isEmpty()){
+
+                Toast.makeText(mContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+
+            }
+
+//            시간을 선택하지 않았다면 막자.
+//            기준? txtDate, txtTime 두개의 문구중 하나라도 처음 문구 그대로면 입력 안했다고 간주
+
+            if(binding.txtDate.text == "약속 일자"){
+                Toast.makeText(mContext,"일자를 선택 해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if(binding.txtTime.text == "약속 시간"){
+                Toast.makeText(mContext,"시간을 선택 해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+//              선택한 일시가, 지금보다 이전의 일시라면 "현재 이후의 시간으로 선택해주세요."
+
+            val now = Calendar.getInstance() // 저장버튼을 누른 현재 시간.
+
+            if(mSelectedAppointmentDateTime.timeInMillis < now.timeInMillis){
+                Toast.makeText(mContext,"현재 이후의 시간으로 선택해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+//            장소 이름도 반드시 입력하게.
+            val inputplaceName = binding.edtPlaceName.text.toString()
+            if(inputplaceName.isEmpty()){
+                Toast.makeText(mContext,"장소 이름을 기입해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
 //            장소를 선택했는지? 안했다면 등록 거부
 
             if(mSelectedLatLng == null){
@@ -61,9 +100,9 @@ class EditAppointmentActivity : BaseActivity() {
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
 
             apiList.postRequestAddAppointment(
-                binding.edtTitle.text.toString(),
+                inputTitle,
                 sdf.format( mSelectedAppointmentDateTime.time ),
-                binding.edtPlaceName.text.toString(),
+                inputplaceName,
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,
 
