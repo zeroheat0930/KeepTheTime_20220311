@@ -1,5 +1,6 @@
 package com.zeroheat.keepthetime_20220311.datas
 
+import java.io.Serializable
 import java.util.*
 
 class AppointmentData(
@@ -16,5 +17,5 @@ class AppointmentData(
     val created_at: String,
     val user: UserData,
     val invited_friends: List<UserData>
-) {
+) : Serializable {
 }
