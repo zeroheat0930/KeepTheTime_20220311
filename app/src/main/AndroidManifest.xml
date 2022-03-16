@@ -13,9 +13,6 @@
         android:theme="@style/Theme.KeepTheTime_20220311"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ManageMyFirendActivity"
-            android:exported="false" />
-        <activity
             android:name=".EditAppointmentActivity"
             android:exported="false" />
         <activity
