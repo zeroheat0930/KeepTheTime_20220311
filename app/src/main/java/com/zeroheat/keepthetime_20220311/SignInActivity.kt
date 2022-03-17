@@ -9,6 +9,12 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfile
+import com.navercorp.nid.profile.data.NidProfileResponse
 import com.zeroheat.keepthetime_20220311.databinding.ActivitySignInBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.utils.ContextUtil
@@ -25,7 +31,9 @@ class SignInActivity : BaseActivity() {
     //    페북로그인 화면에 다녀오면, 할일을 관리해주는 변수.
     lateinit var mCallbackManager : CallbackManager
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
         setupEvents()
@@ -33,6 +41,84 @@ class SignInActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+//        네이버로그인 - 네아 객체 초기화 코드
+        NaverIdLoginSDK.initialize(mContext, "LDKX45sFox7JCykCDe4k", "AR9brYXP1m", "KeepTheTime-220315")
+
+        binding.btnNaverLogin.setOnClickListener {
+//            네이버 로그인 기능 실행
+            val oauthLoginCallback = object : OAuthLoginCallback{
+                override fun onError(errorCode: Int, message: String) {
+                    onFailure(errorCode, message)
+                }
+
+                override fun onFailure(httpStatus: Int, message: String) {
+                    val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                    val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                    Toast.makeText(mContext,"errorCode:$errorCode, errorDesc:$errorDescription",Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onSuccess() {
+                    NaverIdLoginSDK.showDevelopersLog(true)
+
+ //                    네이버로그인 -> 네이버 서버의 토큰값 받기.
+
+                    Log.d("네이버 접속 토큰", NaverIdLoginSDK.getAccessToken().toString() )
+
+                }
+            }
+            NaverIdLoginSDK.authenticate(mContext, oauthLoginCallback)
+            NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse>{
+                override fun onError(errorCode: Int, message: String) {
+
+                }
+
+                override fun onFailure(httpStatus: Int, message: String) {
+
+                }
+
+                override fun onSuccess(result: NidProfileResponse) {
+
+
+                    Log.d("네이버 로그인성공", result.toString() )
+                    Log.d("id추출??", result.profile?.id.toString() )
+                    Log.d("name추출??", result.profile?.name.toString() )
+
+                    apiList.postRequestSocialLogin(
+                        "naver",
+                        result.profile?.id.toString(),
+                        result.profile?.name.toString()
+                    ).enqueue(object : Callback<BasicResponse>{
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+                            if (response.isSuccessful) {
+
+                                val br = response.body()!!
+
+                                ContextUtil.setLoginUserToken(mContext, br.data.token)
+
+                                Toast.makeText(
+                                    mContext,
+                                    "${br.data.user.nick_name}님, 네이버 로그인을 환영합니다!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                val myIntent = Intent(mContext, MainActivity::class.java)
+                                startActivity(myIntent)
+
+                                finish()
+
+                            }
+                        }
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+                    })
+                }
+            })
+        }
 
         binding.btnFacebookLogin.setOnClickListener {
 
@@ -101,15 +187,8 @@ class SignInActivity : BaseActivity() {
                     graphRequest.executeAsync()
                 }
 
-                override fun onCancel() {
-
-                }
-
-
-
-                override fun onError(error: FacebookException) {
-
-                }
+                        override fun onCancel() {}
+                        override fun onError(error: FacebookException) {}
 
             })
 
@@ -121,10 +200,6 @@ class SignInActivity : BaseActivity() {
 
 
         }
-
-
-
-
 
         binding.btnKaKaoLogin.setOnClickListener {
 
@@ -221,7 +296,9 @@ class SignInActivity : BaseActivity() {
 //        페북로그인 - 콜백 관리 기능 초기화
         mCallbackManager = CallbackManager.Factory.create()
 
+
     }
+
 
 //    페북 로그인 화면에 다녀오면 할 일 세팅.
 
