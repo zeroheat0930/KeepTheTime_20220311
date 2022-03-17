@@ -57,6 +57,8 @@ class EditAppointmentActivity : BaseActivity() {
 
 
     override fun setupEvents() {
+
+
 //        저장 버튼이 눌리면
         binding.btnSave.setOnClickListener {
 
@@ -110,13 +112,18 @@ class EditAppointmentActivity : BaseActivity() {
             Log.d("선택한약속장소 - 위도", "위도 : ${mSelectedLatLng!!.latitude}")
             Log.d("선택한약속장소 - 경도", "경도 : ${mSelectedLatLng!!.longitude}")
 
-//            약속일시 - yyyy-MM-dd HH:mm 양식을 서버가 지정해서 요청.
 
+//            약속일시 - yyyy-MM-dd HH:mm 양식을 서버가 지정해서 요청.
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+
+            val selectedStartPlace = mStartPlaceList[binding.startPlace.selectedItemPosition]
 
             apiList.postRequestAddAppointment(
                 inputTitle,
                 sdf.format( mSelectedAppointmentDateTime.time ),
+                selectedStartPlace.name,
+                selectedStartPlace.latitude,
+                selectedStartPlace.longitude,
                 inputplaceName,
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,

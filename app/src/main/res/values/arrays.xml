@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_test">
+        <item>1번항목</item>
+        <item>2번항목</item>
+        <item>3번항목</item>
+        <item>4번항목</item>
+        <item>5번항목</item>
+    </string-array>
+</resources>
