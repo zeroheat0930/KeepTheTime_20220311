@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.kakao.sdk.user.UserApiClient
 import com.zeroheat.keepthetime_20220311.databinding.ActivitySignInBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.utils.ContextUtil
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,12 +47,22 @@ class SignInActivity : BaseActivity() {
 
                     Log.d("페북로그인성공", result?.accessToken.toString() )
 
-//                    받은 토큰으로 > 내 정보도 받아오자.
+//                    받은 토큰으로 > 내 정보도 받아오자. => GraphRequest 클래스 활용.
 
 //                    1. 정보를 받아오면 뭘 할건지? 인터페이스 설정
 
-//                    2. 실제로 요청 호출
+                    val graphRequest = GraphRequest.newMeRequest(result?.accessToken, object : GraphRequest.GraphJSONObjectCallback {
+                        override fun onCompleted(jsonObj: JSONObject?, response: GraphResponse?) {
 
+                            Log.d("받아온정보", jsonObj!!.toString())
+
+                        }
+
+                    })
+
+
+//                    2. 실제로 요청 호출
+                    graphRequest.executeAsync()
                 }
 
                 override fun onCancel() {
