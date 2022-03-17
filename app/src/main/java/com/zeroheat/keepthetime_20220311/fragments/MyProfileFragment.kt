@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.zeroheat.keepthetime_20220311.ManageMyFriendsActivity
+import com.zeroheat.keepthetime_20220311.ManagePlacesActivity
 import com.zeroheat.keepthetime_20220311.R
 import com.zeroheat.keepthetime_20220311.SplashActivity
 import com.zeroheat.keepthetime_20220311.databinding.FragmentMyProfileBinding
@@ -39,6 +40,11 @@ class MyProfileFragment : BaseFragment() {
     }
 
     override fun setupEvents() {
+
+        binding.btnManagePlaces.setOnClickListener {
+         val myIntent = Intent(mContext, ManagePlacesActivity::class.java)
+         startActivity(myIntent)
+        }
 
         binding.btnManageMyFriends.setOnClickListener {
 

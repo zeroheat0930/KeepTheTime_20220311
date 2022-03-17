@@ -64,6 +64,8 @@ interface APIList {
         @Field("place") place: String,
         @Field("latitude") lat: Double,
         @Field("longitude") lng: Double,
+//        @Field("start_latitude") stLat: Double,
+//        @Field("start_longitude") stLng: Double,
     ) : Call<BasicResponse>
 
     @GET("/appointment")
