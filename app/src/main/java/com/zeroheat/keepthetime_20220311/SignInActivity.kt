@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.facebook.CallbackManager
 import com.kakao.sdk.user.UserApiClient
 import com.zeroheat.keepthetime_20220311.databinding.ActivitySignInBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
@@ -17,6 +18,9 @@ class SignInActivity : BaseActivity() {
 
     lateinit var binding: ActivitySignInBinding
 
+    //    페북로그인 화면에 다녀오면, 할일을 관리해주는 변수.
+    lateinit var mCallbackManager : CallbackManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
@@ -25,6 +29,18 @@ class SignInActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnFacebookLogin.setOnClickListener {
+
+//            페북 로그인 기능 실행
+
+
+
+        }
+
+
+
+
 
         binding.btnKaKaoLogin.setOnClickListener {
 
@@ -118,6 +134,18 @@ class SignInActivity : BaseActivity() {
     }
 
     override fun setValues() {
+//        페북로그인 - 콜백 관리 기능 초기화
+        mCallbackManager = CallbackManager.Factory.create()
+
+    }
+
+//    페북 로그인 화면에 다녀오면 할 일 세팅.
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+
+
 
     }
 
