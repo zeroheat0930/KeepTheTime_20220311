@@ -19,6 +19,7 @@ import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import com.zeroheat.keepthetime_20220311.databinding.ActivityEditAppointmentBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
+import com.zeroheat.keepthetime_20220311.datas.PlaceData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +42,10 @@ class EditAppointmentActivity : BaseActivity() {
     var path: PathOverlay? = null // 출발지 ~ 도착지까지 보여줄 경로 선. 처음에는 보이지 않는 상태.
 
 
-   override fun onCreate(savedInstanceState: Bundle?) {
+//      내 출발 장소 목록
+    val mStartPlaceList = ArrayList<PlaceData>()
+
+  override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appointment)
 //        binding.naverMapView.onCreate(savedInstanceState)
@@ -386,7 +390,31 @@ class EditAppointmentActivity : BaseActivity() {
 
         }
 
+//        내 출발장소 목록 불러오기
+        getMyStartPlaceListFromServer()
 
+
+    }
+
+    fun getMyStartPlaceListFromServer(){
+
+        apiList.getRequestUserPlaces().enqueue(object:Callback<BasicResponse>{
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if(response.isSuccessful){
+
+                    var br = response.body()!!
+
+                    mStartPlaceList.clear()
+
+                    mStartPlaceList.addAll(br.data.places)
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
 
     }
 }
