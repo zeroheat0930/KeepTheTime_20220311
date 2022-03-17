@@ -41,7 +41,7 @@ class SignInActivity : BaseActivity() {
 //            1. 로그인 하고 다녀오면 어떤 행동을할지? 인터페이스 설정.
             LoginManager.getInstance().registerCallback(mCallbackManager, object :
                 FacebookCallback<LoginResult> {
-                override fun onSuccess(result: LoginResult?) {
+                override fun onSuccess(result: LoginResult) {
 
 //                    페북로그인 -> 페북 서버의 토큰값 받기.
 
@@ -105,7 +105,9 @@ class SignInActivity : BaseActivity() {
 
                 }
 
-                override fun onError(error: FacebookException?) {
+
+
+                override fun onError(error: FacebookException) {
 
                 }
 

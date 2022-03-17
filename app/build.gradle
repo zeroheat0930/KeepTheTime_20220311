@@ -40,8 +40,7 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-user:2.8.6"
 
-    implementation 'com.facebook.android:facebook-login:8.1.0'
-
+    implementation 'com.facebook.android:facebook-login:13.0.0'
 
     implementation files('/libs/ODsayAndroidSDK.aar')
 
