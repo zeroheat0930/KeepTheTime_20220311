@@ -17,6 +17,7 @@ import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
+import com.zeroheat.keepthetime_20220311.adapters.StartPlaceSpinnerAdapter
 import com.zeroheat.keepthetime_20220311.databinding.ActivityEditAppointmentBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.datas.PlaceData
@@ -44,6 +45,7 @@ class EditAppointmentActivity : BaseActivity() {
 
 //      내 출발 장소 목록
     val mStartPlaceList = ArrayList<PlaceData>()
+    lateinit var mStartPlaceAdapter: StartPlaceSpinnerAdapter
 
   override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -393,6 +395,9 @@ class EditAppointmentActivity : BaseActivity() {
 //        내 출발장소 목록 불러오기
         getMyStartPlaceListFromServer()
 
+//        스피너 어댑터 연결 -> 리스트뷰와 동일함.
+        mStartPlaceAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.start_place_spinner_list_item, mStartPlaceList)
+        binding.startPlace.adapter = mStartPlaceAdapter
 
     }
 
@@ -407,6 +412,8 @@ class EditAppointmentActivity : BaseActivity() {
                     mStartPlaceList.clear()
 
                     mStartPlaceList.addAll(br.data.places)
+
+                    mStartPlaceAdapter.notifyDataSetChanged()
                 }
             }
 
