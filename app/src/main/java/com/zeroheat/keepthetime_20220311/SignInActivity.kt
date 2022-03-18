@@ -64,60 +64,59 @@ class SignInActivity : BaseActivity() {
  //                    네이버로그인 -> 네이버 서버의 토큰값 받기.
 
                     Log.d("네이버 접속 토큰", NaverIdLoginSDK.getAccessToken().toString() )
+                    NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse>{
+                        override fun onError(errorCode: Int, message: String) {
 
-                }
-            }
-            NaverIdLoginSDK.authenticate(mContext, oauthLoginCallback)
-            NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse>{
-                override fun onError(errorCode: Int, message: String) {
-
-                }
-
-                override fun onFailure(httpStatus: Int, message: String) {
-
-                }
-
-                override fun onSuccess(result: NidProfileResponse) {
-
-
-                    Log.d("네이버 로그인성공", result.toString() )
-                    Log.d("id추출??", result.profile?.id.toString() )
-                    Log.d("name추출??", result.profile?.name.toString() )
-
-                    apiList.postRequestSocialLogin(
-                        "naver",
-                        result.profile?.id.toString(),
-                        result.profile?.name.toString()
-                    ).enqueue(object : Callback<BasicResponse>{
-                        override fun onResponse(
-                            call: Call<BasicResponse>,
-                            response: Response<BasicResponse>
-                        ) {
-                            if (response.isSuccessful) {
-
-                                val br = response.body()!!
-
-                                ContextUtil.setLoginUserToken(mContext, br.data.token)
-
-                                Toast.makeText(
-                                    mContext,
-                                    "${br.data.user.nick_name}님, 네이버 로그인을 환영합니다!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                val myIntent = Intent(mContext, MainActivity::class.java)
-                                startActivity(myIntent)
-
-                                finish()
-
-                            }
                         }
-                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
+                        override fun onFailure(httpStatus: Int, message: String) {
+
+                        }
+
+                        override fun onSuccess(result: NidProfileResponse) {
+
+
+                            Log.d("네이버 로그인성공", result.toString() )
+                            Log.d("id추출??", result.profile?.id.toString() )
+                            Log.d("name추출??", result.profile?.name.toString() )
+
+                            apiList.postRequestSocialLogin(
+                                "naver",
+                                result.profile?.id.toString(),
+                                result.profile?.name.toString()
+                            ).enqueue(object : Callback<BasicResponse>{
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>
+                                ) {
+                                    if (response.isSuccessful) {
+
+                                        val br = response.body()!!
+
+                                        ContextUtil.setLoginUserToken(mContext, br.data.token)
+
+                                        Toast.makeText(
+                                            mContext,
+                                            "${br.data.user.nick_name}님, 네이버 로그인을 환영합니다!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        val myIntent = Intent(mContext, MainActivity::class.java)
+                                        startActivity(myIntent)
+
+                                        finish()
+
+                                    }
+                                }
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+                            })
                         }
                     })
                 }
-            })
+            }
+            NaverIdLoginSDK.authenticate(mContext, oauthLoginCallback)
         }
 
         binding.btnFacebookLogin.setOnClickListener {
