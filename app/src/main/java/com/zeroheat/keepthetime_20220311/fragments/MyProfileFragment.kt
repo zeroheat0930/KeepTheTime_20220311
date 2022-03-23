@@ -18,6 +18,9 @@ import com.zeroheat.keepthetime_20220311.databinding.FragmentMyProfileBinding
 import com.zeroheat.keepthetime_20220311.datas.BasicResponse
 import com.zeroheat.keepthetime_20220311.utils.ContextUtil
 import com.zeroheat.keepthetime_20220311.utils.URIPathHelper
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -143,6 +146,18 @@ class MyProfileFragment : BaseFragment() {
 
 ////                임시 : 선택한 사진을 이미지뷰에 반영.
 //                Glide.with(mContext).load(selectedImageUri).into(binding.imgProfile)
+
+                //                완성된 파일을, Retrofit에 첨부 가능한 RequestBody 형태로 가공.
+                val fileReqBody = RequestBody.create( MediaType.get("image/*"),  file )
+
+//                실제로 첨부하자. 일반 형태의 통신 X,  Multipart 형태로 전송. MultipartBody 형태로 2차 가공.
+//                cf) 파일이 같이 첨부되는 API통신은, Multipart 형태로 모든 데이터를 첨부해야함.
+                val multiPartBody = MultipartBody.Part.createFormData("profile_image", "myProfile.jpg", fileReqBody)//                완성된 파일을, Retrofit에 첨부 가능한 RequestBody 형태로 가공.
+                val fileReqBody = RequestBody.create( MediaType.get("image/*"),  file )
+
+//                실제로 첨부하자. 일반 형태의 통신 X,  Multipart 형태로 전송. MultipartBody 형태로 2차 가공.
+//                cf) 파일이 같이 첨부되는 API통신은, Multipart 형태로 모든 데이터를 첨부해야함.
+                val multiPartBody = MultipartBody.Part.createFormData("profile_image", "myProfile.jpg", fileReqBody)
 
             }
 
