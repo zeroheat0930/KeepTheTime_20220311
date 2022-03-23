@@ -2,6 +2,7 @@ package com.zeroheat.keepthetime_20220311.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class AppointmentListFragment : BaseFragment() {
 
     override fun setupEvents() {
 
-
+//플러스 버튼이 눌리면 EditAppointmentActivity로 이동함.
         binding.btnAddAppointment.setOnClickListener {
 
             val myIntent = Intent(mContext, EditAppointmentActivity::class.java)
@@ -76,7 +77,7 @@ class AppointmentListFragment : BaseFragment() {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful) {
-
+                    Log.d("response?", response.toString())
 
 //                    기존의 약속목록을 비우고 나서 추가
                     mAppointmentList.clear()
@@ -84,6 +85,8 @@ class AppointmentListFragment : BaseFragment() {
                     val br = response.body()!!
 
                     mAppointmentList.addAll( br.data.appointments )
+
+                    Log.d("br.data.appointments", br.data.appointments.toString())
 
                     mAppointmentAdapter.notifyDataSetChanged()
 
